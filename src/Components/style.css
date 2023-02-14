@@ -1,0 +1,171 @@
+.signupUSer-Container{
+
+}
+.start-Container{
+    height: 100%;
+    width: 100%;
+}
+.imageStore{
+    height: 30vh;
+    width: 400px;
+
+    margin: auto;
+
+}
+.imageStore img {
+     width: 100%;
+     margin-top: 10%;
+     height: 100%;
+}
+.btn-Start{
+    height: 100px;
+    width: 200px;
+    margin: auto;
+
+
+
+}
+.btn-Start button{
+    height: 80%;
+    width: 100%;
+   background-color: #8dc63f;
+    color: white;
+    font-weight: bold;
+   
+    border: none;
+    cursor: pointer;
+    margin-top: 70%;
+}
+.btn-Start button:hover{
+   background-color: #54880b;
+   transition: 0.7s;
+}
+.sinupContainer{
+  background-color: #8dc63f;
+  height: 180vh;
+  width: 100%;
+  align-items: center;
+  padding: 15%;
+}
+.sinupInner-Container{
+  height: 59%;
+    width: 500px;
+    margin: auto;
+    background-color: white;
+    border: none;
+}
+.sigup-Image{
+    margin: auto;
+    height: 170px;
+    width: 90%;
+}
+.sigup-Image img{
+    width: 100%;
+    height: 100%;
+}
+.sinupInner-Container input{
+    margin-top: 5%;
+
+}
+.sigupButton{
+    width: 90%;
+    margin-top: 5%;
+    height: 40px;
+    border: none;
+   
+    background-color: #54880b;
+    color: white;
+    font-weight: bold;
+
+}
+.sigupButton:hover{
+ 
+    transition: 0.6s;
+    background-color: #8dc63f;
+
+}
+@media (max-width:750px){
+    .sinupInner-Container{
+        width: 400px;
+        height: 49%;
+    }
+}
+@media (max-width:550px){
+    .sinupInner-Container{
+        width: 370px;
+        height: 40%;
+    }
+}
+.img-container{
+    height: 170px;
+    width: 300px;
+}
+.img-container img{
+  height: 100%;
+  width: 100%;
+}
+.container-fluid{
+    width: 70%;
+}
+.header-container{
+    display: flex ;
+    color: #8dc63f;
+}
+.image1-container{
+    display: flex;
+}
+.space_container{
+    width: 50%;
+}
+.image1-container div i{
+    height: 100px;
+}
+.heading-Container{
+    width: 600px;
+}
+.heading-Container h1{
+    color: #8dc63f;
+   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.i-container i{
+color: #54880b;
+}
+.image1-Container{
+    width: 100%;
+    height: 50vh;
+    
+
+}
+.image1-Container img {
+    width: 80%;
+    height: 100%;
+    margin: auto;
+}
+.adminItemContainer{
+    height: 200px;
+    width: 400px;
+    border: 1px solid #54880b;
+    margin-top: 5%;
+    display: flex;
+    box-shadow: 0 0.2rem 1rem rgb(0 0 0 / 69%);
+    
+}
+.adminItemsImage{
+    height: 100%;
+    width: 50%;
+}
+.adminItemsImage img{
+    width: 100%;
+    height: 100%;
+}
+.Regesterbtn{
+    width: 90%;
+    margin-top: 5%;
+    height: 40px;
+    border: none;
+   
+    background-color: #54880b;
+    color: white;
+    font-weight: bold;
+
+}
