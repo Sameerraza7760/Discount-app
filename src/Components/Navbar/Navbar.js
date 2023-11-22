@@ -4,8 +4,11 @@ import React from "react";
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from "react-router-dom";
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function AdminNavbar() {
+  const chatIcon = <FontAwesomeIcon icon={faComment} />;
   const navigate=useNavigate()
    return (
         <div className="container">
@@ -23,11 +26,16 @@ export default function AdminNavbar() {
               </div>
               {/* Order icon */}
               <div className="order-img">
+           
+              {/* <FontAwesomeIcon icon="fa-thin fa-message-dollar" /> */}
+
+              <span style={{fontSize:'30px',cursor:'pointer'}} onClick={()=>navigate('/adminchat')} >{chatIcon}</span>
+            
                 <small>
                   <FontAwesomeIcon
                     icon={faClipboardList}
                     className="order-icon"
-                    style={{ height: '30px', width: '30px', cursor: 'pointer' }}
+                    style={{ height: '30px', width: '30px', cursor: 'pointer'}}
                     onClick={() => navigate('/adminOrder')} // Navigate to '/adminOrder' when clicked
                   />
                 </small>

@@ -21,12 +21,10 @@ function Account() {
   
         await auth.signOut();
    
-        await swal({
-           title: 'Congrats! Logged Out Successfully.',
-         
-         
-       })
-       navigate('/')}
+        await swal("logout Sussesfully")
+
+        navigate('/')
+    }
        
 const updateFullname = async () => {
   const fullName = document.getElementById("fullName").value;

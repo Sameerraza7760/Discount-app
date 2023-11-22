@@ -11,6 +11,8 @@ import UserCart from "../../pages/Userpanel/Usercart/UserCart";
 import UserHome from "../../pages/Userpanel/Userhome/UserHome";
 import UserSetting from "../../pages/Userpanel/Usersetting/UserSetting";
 import AdminOrder from "../../pages/Adminpanel/Order/AdminOrder";
+import Adminchat from "../../pages/Adminpanel/Adminchat/Adminchat";
+import Userchat from "../../pages/Userpanel/Userchat/Userchat";
 function router() {
     const router = createBrowserRouter([
       {
@@ -57,6 +59,14 @@ function router() {
         {
           path:'/userSetting',
           element:<UserSetting/>
+        },
+        {
+          path:'/adminchat',
+          element:<Adminchat/>
+        },
+        {
+          path:'/userchat',
+          element:<Userchat/>
         }
        
     ]);

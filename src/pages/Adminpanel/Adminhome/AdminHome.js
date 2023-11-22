@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs, db } from '../../../Config/firebase/firebase';
 import Navbar from '../../../Components/Navbar/Navbar';
 import Footer from '../../../Components/Footer/Adminfooter/Footer';
+import { auth } from './../../../Config/firebase/firebase';
 
 function AdminHome() {
   const [adminitems, setAdminItems] = useState([]);

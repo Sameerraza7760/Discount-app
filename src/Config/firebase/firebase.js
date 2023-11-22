@@ -4,7 +4,6 @@ import {
     GoogleAuthProvider,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
-    
     signInWithEmailAndPassword,
   } from "firebase/auth";
 
@@ -14,9 +13,7 @@ import {
     setDoc,
     addDoc,
     updateDoc,
-    collection,
-    
-    getDocs
+    collection,onSnapshot,query,where,getDocs,serverTimestamp
   } from "firebase/firestore";
 
 
@@ -77,10 +74,6 @@ function keeploggined() {
   });
 }
 keeploggined()
-
-
-
-
   export {
     getAuth,
     signInWithPopup,
@@ -90,7 +83,8 @@ keeploggined()
     signinFirebase,doc,setDoc,collection,getDocs,db,
     storage,ref,uploadBytes,getDownloadURL,
     onAuthStateChanged,
-    keeploggined,
+    keeploggined,where,query,onSnapshot,addDoc,
     updateDoc,
+    serverTimestamp
     
   }  

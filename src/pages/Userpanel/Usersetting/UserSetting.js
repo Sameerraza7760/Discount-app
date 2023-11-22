@@ -29,7 +29,9 @@ async function logout() {
   await swal({
      title: 'Congrats! Logged Out Successfully.',
  })
- navigate('/')}
+ navigate('/')
+
+}
 const convertMillisecondsToTime = (milliseconds) => {
   const date = new Date(milliseconds);
   let hours = date.getHours();
