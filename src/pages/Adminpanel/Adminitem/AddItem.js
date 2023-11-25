@@ -20,11 +20,12 @@ const Index = () => {
       const productCategory = document.getElementById('productCategory').value;
 
       const itemsAdmin = { productName, productDesc, unitName, unitPrice, adminImage, productCategory };
+      
 
-      if (Object.values(itemsAdmin).map((value) => value.length === 0)) {
-        swal('Please Fill All Inputs');
-        return;
-      }
+      // if (Object.values(itemsAdmin).map((value) => value.length === 0)) {
+      //   swal('Please Fill All Inputs');
+      //   return;
+      // }
 
       await setDoc(doc(db, 'adminItems', `${auth.currentUser.uid}${Date.now()}`), itemsAdmin);
       swal('Congratulations!', 'Item Added', 'success');
@@ -41,6 +42,7 @@ const Index = () => {
     const getCategories = async () => {
       const querySnapshot = await getDocs(collection(db, 'categories'));
       const myCategories = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      console.log(myCategories)
       setCategories(myCategories);
     };
     getCategories();

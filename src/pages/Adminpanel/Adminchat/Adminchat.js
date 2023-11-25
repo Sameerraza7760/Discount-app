@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, List, makeStyles, Paper } from "@material-ui/core";
+import {
+  Button,
+  Input,
+  List,
+  makeStyles,
+  Paper,
+  Avatar,
+} from "@material-ui/core";
+import { UserOutlined } from "@ant-design/icons";
 import SendIcon from "@material-ui/icons/Send";
 import {
   auth,
@@ -54,65 +62,45 @@ const Adminchat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [slidebarName, setSlidebarName] = useState([]);
-  const [constumerName, setConstumerName] = useState([]);
 
   useEffect(() => {
     const userUID = auth.currentUser?.uid;
+    // console.log("hy broo==>",userUID)
     localStorage.setItem("Yourid", userUID);
+
     const userEmail = auth.currentUser?.email;
     localStorage.setItem("yourEmail", userEmail);
+    const constumerNames = async () => {
+      const Email = localStorage.getItem("yourEmail");
 
-    const fetchConstumerNames = async () => {
-      try {
-        const Email = localStorage.getItem("yourEmail");
-        if (Email) {
+      if (Email) {
+        try {
           const querySnapshot = await getDocs(
             collection(db, "messeges"),
-            where("costumerEmail", "!=", Email)
+            where("costumerEmail", " != ", Email)
           );
-          const constumer = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
+          const constumer = [];
+          querySnapshot.forEach((doc) => {
+            constumer.push({ id: doc.id, ...doc.data() });
+          });
           setSlidebarName(constumer);
-        } else {
-          console.error("Email is undefined or null.");
+        } catch (error) {
+          console.error("Error fetching data:", error.message);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
+      } else {
+        console.error("Email is undefined or null.");
       }
     };
 
-    fetchConstumerNames();
+    constumerNames();
   });
 
-  let yoursID;
   let chatRoomId;
-  let friendid;
-  let youremail;
-
   const handleSidebarItemClick = async (item) => {
-    // let chatId = localStorage.getItem('chatid');
+    console.log("hy==>", item);
 
-    let recieverid = localStorage.getItem("friendid");
-    const id = localStorage.getItem("Yourid");
-    // yoursID =id;
-    // friendid = item.senderid;
-    youremail = auth.currentUser.email;
-    console.log(id, recieverid, youremail);
-
-    if (id && recieverid) {
-      chatRoomId = yoursID < recieverid ? id + recieverid : recieverid + id;
-      localStorage.setItem("chatid", chatRoomId);
-      localStorage.setItem("friendid", recieverid);
-    } else {
-      console.log("yoursID or friendid is undefined. Cannot set chatRoomId.");
-    }
-
-    console.log("dost==>", recieverid);
-
-    setConstumerName(item.costumerEmail);
-    console.log("Charromm=>", chatRoomId);
+    chatRoomId = item.chatRoomId;
+    localStorage.setItem("chatID", item.chatRoomId);
 
     try {
       const q = query(
@@ -143,14 +131,16 @@ const Adminchat = () => {
   };
 
   const sendMessege = async () => {
+    let chatRoomId = localStorage.getItem("chatID");
+    console.log("hi==>", chatRoomId);
     let recieverid = localStorage.getItem("friendid");
-    let chatId = localStorage.getItem("chatid");
+
     const Email = localStorage.getItem("yourEmail");
-    if (chatId) {
+    if (chatRoomId) {
       try {
         const docref = await addDoc(collection(db, "messeges"), {
           messege: newMessage,
-          chatRoomId: chatId,
+          chatRoomId: chatRoomId,
           timestamp: serverTimestamp(),
           costumerEmail: Email,
           recieverid: recieverid,
@@ -178,16 +168,7 @@ const Adminchat = () => {
               );
 
               return (
-                <div
-                  key={index}
-                  style={{
-                    marginBottom: "10px",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {/* <Avatar style={{ marginRight: '5px' }} size="small" icon={<UserOutlined />} /> */}
+                <div>
                   <Button
                     type="primary"
                     style={{
@@ -200,7 +181,7 @@ const Adminchat = () => {
                     }}
                     onClick={() => handleSidebarItemClick(item)}
                   >
-                    {email}
+                    {email.replace(/\d+/g, "").split("@")[0]}
                   </Button>
                 </div>
               );

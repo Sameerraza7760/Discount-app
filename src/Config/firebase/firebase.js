@@ -29,14 +29,16 @@ import {
 
       import { initializeApp } from "firebase/app";
       import swal from "sweetalert";
-      const firebaseConfig = {
-        apiKey: "AIzaSyCiRVKOs1he5yu0nK-IwoKRyn3NUOG_q3E",
-        authDomain: "finalhacatone.firebaseapp.com",
-        projectId: "finalhacatone",
-        storageBucket: "finalhacatone.appspot.com",
-        messagingSenderId: "53600972932",
-        appId: "1:53600972932:web:0645beda2368e3ade1d2d1",
-        measurementId: "G-2JH9VPT7PR"
+    
+        const firebaseConfig = {
+          apiKey: "AIzaSyA_pyrZR_Yt2Hw5cVJeWOTs43fiXEJkWFo",
+          authDomain: "hacatone-f7a3c.firebaseapp.com",
+          projectId: "hacatone-f7a3c",
+          storageBucket: "hacatone-f7a3c.appspot.com",
+          messagingSenderId: "852578302592",
+          appId: "1:852578302592:web:c54647ae5aada04df9c465",
+          measurementId: "G-5RE7F7WLJ3"
+      
       };
 
 const app = initializeApp(firebaseConfig);
