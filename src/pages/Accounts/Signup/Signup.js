@@ -1,13 +1,13 @@
-import React from "react";
-import './../style.css'
-import {
-  swal,
-  createUserWithEmailAndPassword,
-  auth,
-  addUserToDB,
-} from "../../../Config/firebase/firebase";
 import { TextField } from "@mui/material";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  addUserToDB,
+  auth,
+  createUserWithEmailAndPassword,
+  swal,
+} from "../../../Config/firebase/firebase";
+import './../style.css';
 function Signup() {
   const navigate = useNavigate();
   const signupFirebase = async () => {

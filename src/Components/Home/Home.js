@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react'
-import Imagecontainer from '../Homeimage/Imagecontainer'
-import { useNavigate } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import cartItem from '../../Redux/cartaction/cartaction';
-import { toast } from 'react-toastify';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import {
-    collection,
-    getDocs,
-    swal,
-    db
-  } from "./../../Config/firebase/firebase";
-import { useState } from 'react'
-import './../style.css'
-import UserFooter from '../Footer/Userfooter/UserFooter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import cartItem from '../../Redux/cartaction/cartaction';
+import UserFooter from '../Footer/Userfooter/UserFooter';
+import Imagecontainer from '../Homeimage/Imagecontainer';
+import {
+  collection,
+  db,
+  getDocs
+} from "./../../Config/firebase/firebase";
+import './../style.css';
 
 function Home() {
     const navigate=useNavigate()
@@ -106,7 +104,7 @@ function Home() {
         </div>
         <div
           className="products d-flex flex-column"
-          style={{ marginBottom: '5em', margin: 'auto', width: '80%' }}
+          style={{ marginBottom: '5em', margin: 'auto', width: '80%',height:'400px' }}
         >
           {allProducts.length ? allProducts.map((item, index) => {
             return (

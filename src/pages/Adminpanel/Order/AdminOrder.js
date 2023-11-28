@@ -1,9 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
-import { auth, doc, updateDoc, getDocs, collection, db,setDoc,swal } from '../../../Config/firebase/firebase';
 import Button from '@material-ui/core/Button';
-import Navbar from '../../../Components/Navbar/Navbar';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../../Components/Footer/Adminfooter/Footer';
+import Navbar from '../../../Components/Navbar/Navbar';
+import { auth, collection, db, doc, getDocs, setDoc, swal, updateDoc } from '../../../Config/firebase/firebase';
 
 
 function AdminOrder() {

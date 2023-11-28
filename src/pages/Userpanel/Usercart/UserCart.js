@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import UserFooter from '../../../Components/Footer/Userfooter/UserFooter';
-import cartItem, { clearCart, resetCartReducer } from '../../../Redux/cartaction/cartaction';
-import { toast } from 'react-toastify';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { auth, swal, doc, db, setDoc } from '../../../Config/firebase/firebase';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import UserFooter from '../../../Components/Footer/Userfooter/UserFooter';
+import { auth, db, doc, setDoc, swal } from '../../../Config/firebase/firebase';
+import { clearCart, resetCartReducer } from '../../../Redux/cartaction/cartaction';
 
 function UserCart() {
   const [item, setItem] = useState();

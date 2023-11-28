@@ -1,10 +1,9 @@
 import React from "react";
 // import adminAvatar from "../images/admin-avatar.png";
 // import orderIcon from "../images/order-icon.png";
-import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardList, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from "react-router-dom";
-import { faComment } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function AdminNavbar() {

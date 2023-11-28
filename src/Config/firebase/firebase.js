@@ -1,34 +1,37 @@
 import {
-    getAuth,
-    signInWithPopup,
-    GoogleAuthProvider,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-  } from "firebase/auth";
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup
+} from "firebase/auth";
 
   import {
-    getFirestore,
-    doc,
-    setDoc,
-    addDoc,
-    updateDoc,
-    collection,onSnapshot,query,where,getDocs,serverTimestamp
-  } from "firebase/firestore";
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  onSnapshot, query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where
+} from "firebase/firestore";
 
 
   import {
-    getStorage,
-    ref,
-    uploadBytes,
-    getDownloadURL
-    } from "firebase/storage";
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes
+} from "firebase/storage";
     
 
 
 
       import { initializeApp } from "firebase/app";
-      import swal from "sweetalert";
+import swal from "sweetalert";
     
         const firebaseConfig = {
           apiKey: "AIzaSyA_pyrZR_Yt2Hw5cVJeWOTs43fiXEJkWFo",
@@ -76,17 +79,4 @@ function keeploggined() {
   });
 }
 keeploggined()
-  export {
-    getAuth,
-    signInWithPopup,
-    swal,
-    createUserWithEmailAndPassword,
-    addUserToDB,auth,
-    signinFirebase,doc,setDoc,collection,getDocs,db,
-    storage,ref,uploadBytes,getDownloadURL,
-    onAuthStateChanged,
-    keeploggined,where,query,onSnapshot,addDoc,
-    updateDoc,
-    serverTimestamp
-    
-  }  
+  export { addDoc, addUserToDB, auth, collection, createUserWithEmailAndPassword, db, doc, getAuth, getDocs, getDownloadURL, keeploggined, onAuthStateChanged, onSnapshot, query, ref, serverTimestamp, setDoc, signInWithPopup, signinFirebase, storage, swal, updateDoc, uploadBytes, where };

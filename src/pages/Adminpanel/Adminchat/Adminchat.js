@@ -1,218 +1,280 @@
-import React, { useState, useEffect } from "react";
 import {
   Button,
   Input,
   List,
-  makeStyles,
   Paper,
-  Avatar,
+  makeStyles
 } from "@material-ui/core";
-import { UserOutlined } from "@ant-design/icons";
 import SendIcon from "@material-ui/icons/Send";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import React, { useEffect, useState } from "react";
 import {
+  addDoc,
   auth,
-  getDocs,
-  onSnapshot,
-  where,
-  query,
   collection,
   db,
-  addDoc,
+  getDocs,
+  onSnapshot,
+  query,
   serverTimestamp,
+  where,
 } from "./../../../Config/firebase/firebase";
+import { useTheme } from '@material-ui/core/styles';
+import { useNavigate } from "react-router-dom";
+const useStyles = makeStyles((theme) => {
+  const themeInstance = useTheme();
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    height: "100vh",
-  },
+  return {
+    root: {
+      display: 'flex',
+      height: '100vh',
+      width: '100%',
+      flexWrap: 'wrap',
+    },
 
-  sidebar: {
-    width: "200px",
-    backgroundColor: "#f0f0f0",
-    padding: theme.spacing(2),
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-  },
-  chatContainer: {
-    flex: 1,
-    overflowY: "auto",
-    padding: theme.spacing(2),
-  },
-  messageList: {
-    maxHeight: "calc(100% - 40px)",
-    overflowY: "auto",
-  },
-  inputContainer: {
-    padding: theme.spacing(2),
-    borderTop: "1px solid #ddd",
-    display: "flex",
-    alignItems: "center",
-    // marginTop:'500px'
-    // height:'1400px'
-  },
-  input: {
-    marginRight: theme.spacing(2),
-    width: "100%",
-    marginTop: "600px",
-  },
-}));
+    sidebar: {
+      width: '250px',
+      backgroundColor: 'lightgreen',
+      padding: theme.spacing(2),
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    },
+
+    chatContainer: {
+      flex: 1,
+      overflowY: 'auto',
+      padding: theme.spacing(2),
+      width: '100%',
+      backgroundColor: '#ecf0f1',
+    },
+
+    inputContainer: {
+      padding: theme.spacing(2),
+      borderTop: '1px solid #ddd',
+      display: 'flex',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+      borderRadius: '8px',
+      marginTop: '40px',
+      bottom: 0,
+      width: '80%',
+      position: 'fixed',
+    },
+
+    userMessage: {
+      backgroundColor: "gray",
+      color: "#fff",
+      padding: "10px",
+      borderRadius: "12px",
+      maxWidth: "70%",
+      alignSelf: "flex-end",
+      wordWrap: "break-word",
+      marginBottom: "5px",
+    },
+  
+    receiverMessage: {
+      backgroundColor: "grey",
+      color: "#fff",
+      padding: "10px",
+      borderRadius: "12px",
+      maxWidth: "100%",
+      alignSelf: "flex-start",
+      wordWrap: "break-word",
+      marginBottom: "5px",
+    },
+    input: {
+      marginRight: theme.spacing(2),
+      width: '70%',
+      padding: '10px',
+      border: '1px solid #ccc',
+      borderRadius: '5px',
+    },
+
+    sendButton: {
+      width: '130px',
+      height: '40px',
+      backgroundColor: '#3498db',
+      color: '#fff',
+      borderRadius: '5px',
+    },
+    backbtn:{
+      width: '130px',
+      height: '40px',
+      backgroundColor: '#3498db',
+      color: '#fff',
+      borderRadius: '5px',
+    },
+
+    [themeInstance.breakpoints.down('sm')]: {
+      sidebar: {
+        width: '100%',
+      },
+      chatContainer: {
+        width: '100%',
+      },
+    },
+  };
+});
+
+
 
 const Adminchat = () => {
   const classes = useStyles();
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [slidebarName, setSlidebarName] = useState([]);
+  const [name, setNames] = useState([]);
+  const [chatRoomId, setChatRoomId] = useState([]);
 
+
+  const navigate=useNavigate()
   useEffect(() => {
-    const userUID = auth.currentUser?.uid;
-    // console.log("hy broo==>",userUID)
-    localStorage.setItem("Yourid", userUID);
+    const getAllName = async () => {
+      try {
+        const docsRef = collection(db, "messeges");
+        const querySnapshot = await getDocs(docsRef);
+        const Names = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-    const userEmail = auth.currentUser?.email;
-    localStorage.setItem("yourEmail", userEmail);
-    const constumerNames = async () => {
-      const Email = localStorage.getItem("yourEmail");
-
-      if (Email) {
-        try {
-          const querySnapshot = await getDocs(
-            collection(db, "messeges"),
-            where("costumerEmail", " != ", Email)
-          );
-          const constumer = [];
-          querySnapshot.forEach((doc) => {
-            constumer.push({ id: doc.id, ...doc.data() });
-          });
-          setSlidebarName(constumer);
-        } catch (error) {
-          console.error("Error fetching data:", error.message);
-        }
-      } else {
-        console.error("Email is undefined or null.");
+        setNames(Names);
+      } catch (error) {
+        console.error("Error fetching messages:", error.message);
       }
     };
 
-    constumerNames();
-  });
+    getAllName();
+  }, []);
 
-  let chatRoomId;
-  const handleSidebarItemClick = async (item) => {
-    console.log("hy==>", item);
-
-    chatRoomId = item.chatRoomId;
-    localStorage.setItem("chatID", item.chatRoomId);
-
-    try {
-      const q = query(
-        collection(db, "messeges"),
-        where("chatRoomId", "==", String(chatRoomId))
-      );
-
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const messeges = [];
-        querySnapshot.forEach((doc) => {
-          messeges.push(doc.data());
-        });
-        console.log(messages);
-
-        displayMesseges(messeges);
+  useEffect(() => {
+    const q = query(
+      collection(db, "messeges"),
+      where("chatRoomid", "==", chatRoomId)
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const messeges = [];
+      querySnapshot.forEach((doc) => {
+        messeges.push(doc.data());
       });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
-  // getAllMesseges();
+      console.log(messeges);
+      setMessages(messeges);
 
-  const displayMesseges = (messege) => {
-    setMessages(messege);
+      return () => unsubscribe();
+    });
+  }, [chatRoomId]);
 
-    console.log(messege);
+  const handleSidebarItemClick = async (item) => {
+    setChatRoomId(item.chatRoomid);
   };
 
   const sendMessege = async () => {
-    let chatRoomId = localStorage.getItem("chatID");
-    console.log("hi==>", chatRoomId);
-    let recieverid = localStorage.getItem("friendid");
-
-    const Email = localStorage.getItem("yourEmail");
     if (chatRoomId) {
+      const messageData = {
+        message: newMessage,
+        email: auth?.currentUser?.email,
+        senderId: auth?.currentUser?.uid,
+
+        timestamp: serverTimestamp(),
+        chatRoomid: chatRoomId,
+      };
+
+      const messagesRef = collection(db, "messeges");
+
       try {
-        const docref = await addDoc(collection(db, "messeges"), {
-          messege: newMessage,
-          chatRoomId: chatRoomId,
-          timestamp: serverTimestamp(),
-          costumerEmail: Email,
-          recieverid: recieverid,
-          senderid: auth.currentUser.uid,
-        });
+        await addDoc(messagesRef, messageData);
+
+        console.log("Message sent successfully!");
         setNewMessage("");
       } catch (error) {
-        console.log("Error sending message:", error.message);
+        console.error("Error sending message:", error.message);
       }
     } else {
-      console.log("chatRoomId is undefined. Cannot send message.");
+      console.log("id not found");
     }
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id="root" >
       {/* Sidebar */}
-      <Paper className={classes.sidebar}>
-        <List>
-          {Array.from(new Set(slidebarName.map((item) => item.costumerEmail)))
-            .filter((email) => email !== auth.currentUser.email)
-            .map((email, index) => {
-              const item = slidebarName.find(
-                (item) => item.costumerEmail === email
-              );
+      <Paper className={classes.sidebar} id="slidebar" >
 
-              return (
-                <div>
-                  <Button
-                    type="primary"
-                    style={{
-                      paddingTop: "4%",
-                      fontFamily: "sans-serif",
-                      width: "200px",
-                      fontWeight: "bold",
-                      color: "black",
-                      fontSize: "15px",
-                    }}
-                    onClick={() => handleSidebarItemClick(item)}
-                  >
-                    {email.replace(/\d+/g, "").split("@")[0]}
-                  </Button>
-                </div>
-              );
-            })}
-        </List>
+        <Paper className={classes.sidebar}>
+          <List>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={ <ArrowBackIcon />}
+            onClick={()=>navigate('/adminHome')}
+            className={classes.backbtn}
+            style={{marginBottom:'20px'}}
+          >
+            Back
+          </Button>
+            {Array.from(new Set(name.map((item) => item.email)))
+              .filter((email) => email !== auth.currentUser.email)
+              .map((email, index) => {
+                const item = name.find((item) => item.email === email);
+
+                return (
+                  <div key={index}>
+                    {/* Updated button styles */}
+                    <Button
+                      type="primary"
+                      className={classes.sidebarButton}
+                      onClick={() => handleSidebarItemClick(item)}
+                    >
+                      {email.replace(/\d+/g, "").split("@")[0]}
+                    </Button>
+                  </div>
+                );
+              })}
+          </List>
+        </Paper>
       </Paper>
 
       {/* Main Chat Area */}
-      <div className={classes.chatContainer}>
+      <div className={classes.chatContainer} id="chatContainer" >
         {/* Input for New Message */}
-
+         
         <Paper className={classes.messageList}>
           {/* Display messages here */}
-          {messages.map((item) => (
-            <div key={item.id}>{item.messege}</div>
+          {messages.map((item, index) => (
+            <div
+              key={index}
+              className={
+                item.sender === "user"
+                  ? classes.userMessageContainer
+                  : classes.receiverMessageContainer
+              }
+            >
+              <div
+                className={
+                  item.sender === "user"
+                    ? classes.userMessage
+                    : classes.receiverMessage
+                }
+              >
+                {item.message}
+              </div>
+            </div>
           ))}
         </Paper>
 
         <div className={classes.inputContainer}>
+          {/* Updated input styles */}
           <Input
             className={classes.input}
             placeholder="Type a message..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
+          {/* Updated button styles */}
           <Button
             variant="contained"
             color="primary"
             endIcon={<SendIcon />}
             onClick={sendMessege}
-            style={{ marginTop: "550px" }}
+            className={classes.sendButton}
           >
             Send
           </Button>

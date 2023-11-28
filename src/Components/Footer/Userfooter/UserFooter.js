@@ -1,8 +1,8 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 function UserFooter() {

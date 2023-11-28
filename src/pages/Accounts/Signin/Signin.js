@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
-import './../style.css'
-import { signinFirebase, swal } from "../../../Config/firebase/firebase";
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { signinFirebase, swal } from "../../../Config/firebase/firebase";
+import './../style.css';
 function Signin() {
   const navigate=useNavigate()
   const adminData = useSelector(

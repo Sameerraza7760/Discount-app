@@ -1,10 +1,11 @@
-import React from 'react'
-import image1 from './../../images/image1.jpg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import './../style.css'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import image1 from './../../images/image1.jpg';
+import './../style.css';
 
 function Imagecontainer() {
    const navigate=useNavigate()
@@ -12,9 +13,9 @@ function Imagecontainer() {
  <>
  <div className='image1-container'  style={{display:'flex' ,width:'85%' }} >
 <div className='space_container' style={{width:'98%'}} ></div>
-<div className='i-container' style={{width:'2%' ,cursor:'pointer',display:'flex'}}>
-<ChatBubbleOutlineIcon style={{color:'green',height:'30px', marginRight:'16px'}} onClick={()=>navigate("/userchat")} />
-   <FontAwesomeIcon  style={{color:'green',height:'30px'}} icon={faShoppingCart} onClick={()=>navigate("/userCart")} />
+<div className='i-container' style={{width:'2%' ,cursor:'pointer',display:'flex',marginRight:'6%'}}>
+<ChatBubbleOutlineIcon style={{color:'green',height:'30px',marginRight:'7px'}} onClick={()=>navigate("/userchat")} />
+<FontAwesomeIcon  style={{color:'green',height:'30px'}} icon={faShoppingCart} onClick={()=>navigate("/userCart")} />
 
 
 
