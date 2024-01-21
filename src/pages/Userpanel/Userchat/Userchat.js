@@ -10,9 +10,9 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import {
   addDoc,
@@ -30,38 +30,38 @@ const useStyles = makeStyles((theme) => {
 
   return {
     root: {
-      display: 'flex',
-      height: '100vh',
-      width: '100%',
-      flexWrap: 'wrap',
+      display: "flex",
+      height: "100vh",
+      width: "100%",
+      flexWrap: "wrap",
     },
 
     sidebar: {
-      width: '250px',
-      backgroundColor: 'lightgreen',
+      width: "250px",
+      backgroundColor: "lightgreen",
       padding: theme.spacing(2),
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+      boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
     },
 
     chatContainer: {
       flex: 1,
-      overflowY: 'auto',
+      overflowY: "auto",
       padding: theme.spacing(2),
-      width: '100%',
-      backgroundColor: '#ecf0f1',
+      width: "100%",
+      backgroundColor: "#ecf0f1",
     },
 
     inputContainer: {
       padding: theme.spacing(2),
-      borderTop: '1px solid #ddd',
-      display: 'flex',
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      borderRadius: '8px',
-      marginTop: '40px',
+      borderTop: "1px solid #ddd",
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: "#fff",
+      borderRadius: "8px",
+      marginTop: "40px",
       bottom: 0,
-      width: '80%',
-      position: 'fixed',
+      width: "80%",
+      position: "fixed",
     },
 
     userMessage: {
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => {
       wordWrap: "break-word",
       marginBottom: "5px",
     },
-  
+
     receiverMessage: {
       backgroundColor: "grey",
       color: "#fff",
@@ -87,38 +87,37 @@ const useStyles = makeStyles((theme) => {
     },
     input: {
       marginRight: theme.spacing(2),
-      width: '70%',
-      padding: '10px',
-      border: '1px solid #ccc',
-      borderRadius: '5px',
+      width: "70%",
+      padding: "10px",
+      border: "1px solid #ccc",
+      borderRadius: "5px",
     },
 
     sendButton: {
-      width: '130px',
-      height: '40px',
-      backgroundColor: '#3498db',
-      color: '#fff',
-      borderRadius: '5px',
+      width: "130px",
+      height: "40px",
+      backgroundColor: "#3498db",
+      color: "#fff",
+      borderRadius: "5px",
     },
-    backbtn:{
-      width: '130px',
-      height: '40px',
-      backgroundColor: '#3498db',
-      color: '#fff',
-      borderRadius: '5px',
+    backbtn: {
+      width: "130px",
+      height: "40px",
+      backgroundColor: "#3498db",
+      color: "#fff",
+      borderRadius: "5px",
     },
 
-    [themeInstance.breakpoints.down('sm')]: {
+    [themeInstance.breakpoints.down("sm")]: {
       sidebar: {
-        width: '100%',
+        width: "100%",
       },
       chatContainer: {
-        width: '100%',
+        width: "100%",
       },
     },
   };
 });
-
 
 const Userchat = () => {
   const classes = useStyles();
@@ -128,7 +127,7 @@ const Userchat = () => {
   const [adminId, setAdminId] = useState(null);
   const [yoursid, setYoursid] = useState(null);
   const [chatRoomiD, setChatRoomId] = useState(null);
-const navigate=useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     async function getAdmin() {
       const querySnapshot = await getDocs(collection(db, "Admin"));
@@ -208,13 +207,13 @@ const navigate=useNavigate()
 
       <Paper className={classes.sidebar}>
         <List>
-        <Button
+          <Button
             variant="contained"
             color="primary"
-            endIcon={ <ArrowBackIcon />}
-            onClick={()=>navigate('/home')}
+            endIcon={<ArrowBackIcon />}
+            onClick={() => navigate("/home")}
             className={classes.backbtn}
-            style={{marginBottom:'20px'}}
+            style={{ marginBottom: "20px" }}
           >
             Back
           </Button>

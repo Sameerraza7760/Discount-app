@@ -7,9 +7,8 @@ import {
   createUserWithEmailAndPassword,
   swal,
 } from "../../../Config/firebase/firebase";
-import './../style.css';
+import "./../style.css";
 function Signup() {
-  const navigate = useNavigate();
   const signupFirebase = async () => {
     try {
       const fullName = document.getElementById("fullName").value;
@@ -41,58 +40,62 @@ function Signup() {
       });
     }
   };
+  const navigate = useNavigate();
   return (
     <div className="signMain">
-    <h1 className="green-text mt-5 " style={{ color: "#61b846" }}>
-      SAYLANI WELFARE
-    </h1>
-    <p className="blue-text fw-bold mt-3">ONLINE DISCOUNT STORE</p>
-    <div className="signupInpsDiv">
-      <TextField
-         id="fullName"
-        className="signupInp"
-        label="FullName"
-        variant="standard"
-      />
-    </div>
-    <div className="signupInpsDiv">
-      <TextField
-        className="signupInp"
-        label="Contact"
-        id="contact"
-        variant="standard"
-      />
-    </div>
-    <div className="signupInpsDiv">
-      <TextField
-        className="signupInp"
-        label="Email"
-        id="email"
-        autoComplete="off"
-        variant="standard"
-      />
-    </div>
-    <div className="signupInpsDiv">
-      <TextField
+      <h1 className="green-text mt-5 " style={{ color: "#61b846" }}>
+        SAYLANI WELFARE
+      </h1>
+      <p className="blue-text fw-bold mt-3">ONLINE DISCOUNT STORE</p>
+      <div className="signupInpsDiv">
+        <TextField
+          id="fullName"
+          className="signupInp"
+          label="FullName"
+          variant="standard"
+          placeholder="Enter Your FullName"
+        />
+      </div>
+      <div className="signupInpsDiv">
+        <TextField
+          className="signupInp"
+          label="Contact"
+          id="contact"
+          variant="standard"
+        />
+      </div>
+      <div className="signupInpsDiv">
+        <TextField
+          className="signupInp"
+          label="Email"
+          id="email"
+          autoComplete="off"
+          variant="standard"
+        />
+      </div>
+      <div className="signupInpsDiv">
+        <TextField
           id="password"
-        className="signupInp"
-        label="Password"
-        variant="standard"
-        type={'password'}
-      autoComplete="off"
-      />
-    </div>
+          className="signupInp"
+          label="Password"
+          variant="standard"
+          type={"password"}
+          autoComplete="off"
+        />
+      </div>
 
-    <button onClick={signupFirebase} className="signupBtn">
-      Sign Up
-    </button>
-    <div>
-      <p className="text-center mt-4 blue-text fw-bold c-pointer ">
-        Already have an account ?{" "}
-        <span onClick={() => navigate("/Signin")} className='c-pointer'>Login</span>
-      </p>
+      <button onClick={signupFirebase} className="signupBtn">
+        Sign Up
+      </button>
+      <div>
+        <p className="text-center mt-4 blue-text fw-bold c-pointer ">
+          Already have an account ?{" "}
+          <span onClick={() => navigate("/Signin")} className="c-pointer">
+            Login
+          </span>
+        </p>
+      </div>
     </div>
-  </div>
   );
 }
 export default Signup;

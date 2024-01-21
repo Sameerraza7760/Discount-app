@@ -103,7 +103,7 @@ function Home() {
           </select>
         </div>
         <div
-          className="products d-flex flex-column"
+          className="products d-flex flex-column h-auto"
           style={{ marginBottom: '5em', margin: 'auto', width: '80%',height:'400px' }}
         >
           {allProducts.length ? allProducts.map((item, index) => {

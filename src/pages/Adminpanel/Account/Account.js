@@ -1,65 +1,73 @@
-import React from 'react'
-import Footer from '../../../Components/Footer/Adminfooter/Footer'
-import {swal,auth,doc,db,setDoc,uploadBytes,ref,storage,getDownloadURL, } from '../../../Config/firebase/firebase'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import Footer from "../../../Components/Footer/Adminfooter/Footer";
+import {
+  swal,
+  auth,
+  doc,
+  db,
+  setDoc,
+  uploadBytes,
+  ref,
+  storage,
+  getDownloadURL,
+} from "../../../Config/firebase/firebase";
+import { useNavigate } from "react-router-dom";
 import CheckIcon from "@mui/icons-material/Check";
-import Navbar from '../../../Components/Navbar/Navbar'
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import Navbar from "../../../Components/Navbar/Navbar";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function Account() {
-  const [authData,setauthData]=useState(useSelector(
-    (state) => state.adminReducer.admin
-  ))
+  const [authData, setauthData] = useState(
+    useSelector((state) => state.adminReducer.admin)
+  );
   const [added, setAdded] = useState("");
 
+  // console.log("admin", authData);
+  const navigate = useNavigate();
 
-  console.log("admin",authData)
-    const navigate=useNavigate()
-  
-    async function logout() {
-  
-        await auth.signOut();
-   
-        await swal("logout Sussesfully")
+  async function logout() {
+    await auth.signOut();
 
-        navigate('/')
+    await swal("logout Sussesfully");
+
+    navigate("/");
+  }
+  const updateFullname = async () => {
+    const fullName = document.getElementById("fullName").value;
+    if (!fullName) {
+      swal("Please enter name to update!");
+      return;
     }
-       
-const updateFullname = async () => {
-  const fullName = document.getElementById("fullName").value;
-  if (!fullName) {
-    swal("Please enter name to update!")
-    return
-  }
-  const docRef = doc(db, "Admin",`${authData[0].id}` );
-  const updatedData = { email:authData[0].email , fullName: fullName };
-  await setDoc(docRef, updatedData);
-  // authData({ ...authData, adminName: fullName })
-  swal("Updated", `Congrats ${fullName} your name updated Successfully!`, "success");
-};
-
-
-
-const addCategory = async () => {
-  if (!document.getElementById("categoryImage").files[0]) {
-    swal("Select Image to Create category.");
-    return;
-  }
-  const categoryImage = await uploadImage(
-    document.getElementById("categoryImage").files[0]
-  );
-  const categoryName = document.getElementById("categoryName").value;
-  const categoryObjInfo = {
-    categoryImgUrl: categoryImage,
-    categoryName: categoryName,
+    const docRef = doc(db, "Admin", `${authData[0].id}`);
+    const updatedData = { email: authData[0].email, fullName: fullName };
+    await setDoc(docRef, updatedData);
+    swal(
+      "Updated",
+      `Congrats ${fullName} your name updated Successfully!`,
+      "success"
+    );
   };
-  const categoryId = authData[0].id + Date.now();
-  const myCategoryRef = doc(db, "categories", `${categoryId}`);
-  await setDoc(myCategoryRef, categoryObjInfo);
-  swal("Added", "Congrats! Category Added successfully", "success");
-  setAdded("added");
-}; 
+
+  const addCategory = async () => {
+    if (!document.getElementById("categoryImage").files[0]) {
+      swal("Select Image to Create category.");
+      return;
+    }
+    const categoryImage = await uploadImage(
+      document.getElementById("categoryImage").files[0]
+    );
+    const categoryName = document.getElementById("categoryName").value;
+    const categoryObjInfo = {
+      categoryImgUrl: categoryImage,
+      categoryName: categoryName,
+    };
+    const categoryId = authData[0].id + Date.now();
+    const myCategoryRef = doc(db, "categories", `${categoryId}`);
+    await setDoc(myCategoryRef, categoryObjInfo);
+    swal("Added", "Congrats! Category Added successfully", "success");
+    setAdded("added");
+  };
   const uploadImage = async (image) => {
     const storageRef = ref(storage, `images/${image.name}`);
     const snapshot = await uploadBytes(storageRef, image);
@@ -67,12 +75,12 @@ const addCategory = async () => {
     return url;
   };
   return (
-    <div> 
-      <Navbar/>
-    <div className="container">
+    <div>
+      <Navbar />
+      <div className="container">
         <div className="admin-head d-flex flex-column align-items-center">
           <p className="text-center mt-2 fs-5 text-primary">Settings</p>
-          <img  width="100" alt="" />
+          <img width="100" alt="" />
           <div className="input-group w-75 mt-2">
             <input
               className="form-control border-end-0"
@@ -80,8 +88,12 @@ const addCategory = async () => {
               placeholder="Update Fullname"
               id="fullName"
             />
-            <span className="input-group-append d-flex align-items-center px-2" style={{ backgroundColor: "#198754" }} onClick={updateFullname} >
-              <CheckIcon  style={{ cursor: "pointer", color: "white" }} />
+            <span
+              className="input-group-append d-flex align-items-center px-2"
+              style={{ backgroundColor: "#198754" }}
+              onClick={updateFullname}
+            >
+              <CheckIcon style={{ cursor: "pointer", color: "white" }} />
             </span>
           </div>
         </div>
@@ -96,7 +108,7 @@ const addCategory = async () => {
               placeholder="Category Name"
               id="categoryName"
             />
-            <button className="btn btn-success"  onClick={addCategory} >
+            <button className="btn btn-success" onClick={addCategory}>
               Add
             </button>
           </div>
@@ -127,21 +139,23 @@ const addCategory = async () => {
                 </div>
               );
             })} */}
-
           </div>
         </div>
       </div>
 
-
-      <button  className="loginBtn mt-1 fw-bold px-4"  onClick={logout} >
+      <button className="loginBtn mt-1 fw-bold px-4" onClick={logout}>
         Log out
       </button>
 
-      <br /><br /><br />
-      <br /><br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
 
-    <Footer/></div>
-  )
+      <Footer />
+    </div>
+  );
 }
 
-export default Account
+export default Account;
