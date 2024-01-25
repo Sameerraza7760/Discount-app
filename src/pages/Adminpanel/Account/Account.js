@@ -99,7 +99,7 @@ function Account() {
         </div>
         <div className="category-add d-flex flex-column align-items-center mt-3">
           <div className="mb-3 w-75" style={{ border: "1px solid grey" }}>
-            <input className="form-control" type="file" id="categoryImage" />
+            <input className="form-control"  type="file" id="categoryImage" />
           </div>
           <div className="input-group w-75">
             <input

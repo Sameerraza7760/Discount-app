@@ -9,7 +9,7 @@ function Signin() {
   const adminData = useSelector(
     (state) => state.adminReducer.admin
   );
-  console.log("admin==>",adminData)
+console.log(adminData);
   let [whereToNavigate, setWhereToNavigate] = useState("/home");
   const handleEmail = (e) => {
     adminData.forEach((item) => {
@@ -20,8 +20,8 @@ function Signin() {
     });
   };
   async function signin() {
-    var email = document.getElementById('email').value
-    var password = document.getElementById('password').value
+    let email = document.getElementById('email').value
+    let password = document.getElementById('password').value
     try {
       await signinFirebase(email, password);
       await swal("Congratulations!","Sussesfully Login", "success");

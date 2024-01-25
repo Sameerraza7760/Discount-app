@@ -24,7 +24,8 @@ function Signup() {
         return;
       }
       await createUserWithEmailAndPassword(auth, email, password);
-      await addUserToDB(fullName, contact);
+      const userData={fullName,email,contact}
+      await addUserToDB(userData);
       swal({
         title: "Congrats! Sigup Successfully.",
         width: 600,

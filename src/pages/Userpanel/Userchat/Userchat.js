@@ -157,9 +157,8 @@ const Userchat = () => {
     setAdminId(item.id);
     setYoursid(auth?.currentUser?.uid);
   };
-
   const handleSendMessage = async () => {
-    if (adminId && yoursid) {
+    if (adminId && yoursid && newMessage.trim() !== '') {
       const chatroomid = yoursid + adminId;
       const messageData = {
         message: newMessage,
@@ -169,6 +168,7 @@ const Userchat = () => {
         timestamp: serverTimestamp(),
         chatRoomid: chatroomid,
       };
+  
       setChatRoomId(chatroomid);
       const messagesRef = collection(db, "messeges");
 

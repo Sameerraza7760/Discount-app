@@ -17,6 +17,7 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
+  getDoc,
   where,
 } from "firebase/firestore";
 
@@ -40,14 +41,9 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-const addUserToDB = async () => {
+const addUserToDB = async (userData) => {
   const uid = auth.currentUser.uid;
-  var userProfile = { email: "", name: "", photoURL: "" };
-  userProfile.email = auth.currentUser.email;
-  userProfile.name = auth.currentUser.displayName;
-  userProfile.photoURL = auth.currentUser.photoURL;
-
-  return setDoc(doc(db, "users", uid), userProfile);
+  return setDoc(doc(db, "users", uid), userData);
 };
 
 function signinFirebase(loginEmail, loginPassword) {
@@ -90,4 +86,5 @@ export {
   updateDoc,
   uploadBytes,
   where,
+  getDoc
 };

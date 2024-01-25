@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => {
       width: '250px',
       backgroundColor: 'lightgreen',
       padding: theme.spacing(2),
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    
     },
 
     chatContainer: {
@@ -168,7 +168,8 @@ const Adminchat = () => {
   };
 
   const sendMessege = async () => {
-    if (chatRoomId) {
+    
+    if (chatRoomId && newMessage.trim() !== '') {
       const messageData = {
         message: newMessage,
         email: auth?.currentUser?.email,

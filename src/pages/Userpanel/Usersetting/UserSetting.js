@@ -4,17 +4,22 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserFooter from "../../../Components/Footer/Userfooter/UserFooter";
 import {
-    auth,
-    collection,
-    db,
-    getDocs,
-    swal,
+  auth,
+  collection,
+  db,
+  getDocs,
+  swal,
+  setDoc,
+  getDoc,
+  doc,
 } from "../../../Config/firebase/firebase";
 
 function UserSetting() {
   const navigate = useNavigate();
   const [order, setOrder] = useState([]);
   const [FilteredOrder, setFilterOrder] = useState([]);
+  const [userId, setUser] = useState("");
+  const [updateName, setUpdateName] = useState("");
 
   useEffect(() => {
     const getOrder = async () => {
@@ -28,6 +33,7 @@ function UserSetting() {
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
+      setUser(user?.uid);
       const filteredOrders = order.filter(
         (item) => item.id.slice(0, 28) === user?.uid
       );
@@ -56,6 +62,32 @@ function UserSetting() {
     }
     return `${hours}:${minutes} ${amPm}`;
   };
+
+  const updateNameInFirestore = async () => {
+    const docRef = doc(db, "users", userId);
+
+    try {
+      const docSnapshot = await getDoc(docRef);
+
+      if (docSnapshot.exists()) {
+        const existingData = docSnapshot.data();
+        const updatedData = { ...existingData, fullName: updateName };
+
+        await setDoc(docRef, updatedData);
+
+        swal(
+          "Updated",
+          `Congrats ${updateName} your name updated Successfully!`,
+          "success"
+        );
+      } else {
+        console.error("Document not found");
+      }
+    } catch (error) {
+      console.error("Error updating user name in Firestore:", error.message);
+    }
+  };
+
   return (
     <>
       <div className="container" style={{ width: "90%" }}>
@@ -68,6 +100,7 @@ function UserSetting() {
               type="text"
               placeholder="Update Fullname"
               id="update-fullname"
+              onChange={(e) => setUpdateName(e.target.value)}
             />
             <span
               className="input-group-append d-flex align-items-center px-3"
@@ -78,6 +111,7 @@ function UserSetting() {
                 icon={faCheck}
                 className="thick-tick-icon"
                 style={{ cursor: "pointer", color: "white" }}
+                onClick={updateNameInFirestore}
               />
             </span>
           </div>

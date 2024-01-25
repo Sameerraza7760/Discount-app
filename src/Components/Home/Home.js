@@ -68,7 +68,7 @@ function Home() {
   
     return (
       <>
-       <div  style={{paddingBottom:'10%'}} >
+       <div className='h-auto'  style={{paddingBottom:'10%',height:'auto'}} >
        <h1 className="green-text mt-5" style={{ color: '#61b846' }}>
           SAYLANI WELFARE
         </h1>
@@ -145,7 +145,9 @@ function Home() {
           }): <h3>No Products</h3>}
         </div>
        </div>
-        <UserFooter />
+       <div className='mt-5' >
+       <UserFooter />
+       </div>
       </>
     );
   }
