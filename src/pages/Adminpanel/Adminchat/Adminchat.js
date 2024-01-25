@@ -155,7 +155,6 @@ const Adminchat = () => {
       querySnapshot.forEach((doc) => {
         messeges.push(doc.data());
       });
-
       console.log(messeges);
       setMessages(messeges);
 

@@ -27,7 +27,7 @@ import { initializeApp } from "firebase/app";
 import swal from "sweetalert";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA_pyrZR_Yt2Hw5cVJeWOTs43fiXEJkWFo",
+  apiKey: apikey,
   authDomain: "hacatone-f7a3c.firebaseapp.com",
   projectId: "hacatone-f7a3c",
   storageBucket: "hacatone-f7a3c.appspot.com",
