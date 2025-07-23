@@ -16,8 +16,9 @@ import CheckIcon from "@mui/icons-material/Check";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-
+import { CircularProgress } from "@mui/material";
 function Account() {
+  const [loading, setLoading] = useState(false);
   const [authData, setauthData] = useState(
     useSelector((state) => state.adminReducer.admin)
   );
@@ -50,23 +51,39 @@ function Account() {
   };
 
   const addCategory = async () => {
-    if (!document.getElementById("categoryImage").files[0]) {
-      swal("Select Image to Create category.");
-      return;
+    try {
+      if (!document.getElementById("categoryImage").files[0]) {
+        swal("Select Image to Create category.");
+        return;
+      }
+      if (!document.getElementById("categoryName").value) {
+        swal("Please enter category name.");
+        return;
+      }
+      setLoading(true);
+      const categoryImage = await uploadImage(
+        document.getElementById("categoryImage").files[0]
+      );
+      const categoryName = document.getElementById("categoryName").value;
+      const categoryObjInfo = {
+        categoryImgUrl: categoryImage,
+        categoryName: categoryName,
+      };
+      const categoryId = authData[0].id + Date.now();
+      const myCategoryRef = doc(db, "categories", `${categoryId}`);
+      await setDoc(myCategoryRef, categoryObjInfo);
+      swal("Added", "Congrats! Category Added successfully", "success");
+      setAdded("added");
+    } catch (error) {
+      swal({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
     }
-    const categoryImage = await uploadImage(
-      document.getElementById("categoryImage").files[0]
-    );
-    const categoryName = document.getElementById("categoryName").value;
-    const categoryObjInfo = {
-      categoryImgUrl: categoryImage,
-      categoryName: categoryName,
-    };
-    const categoryId = authData[0].id + Date.now();
-    const myCategoryRef = doc(db, "categories", `${categoryId}`);
-    await setDoc(myCategoryRef, categoryObjInfo);
-    swal("Added", "Congrats! Category Added successfully", "success");
-    setAdded("added");
+    finally {
+      setLoading(false);
+    }
   };
   const uploadImage = async (image) => {
     const storageRef = ref(storage, `images/${image.name}`);
@@ -99,7 +116,7 @@ function Account() {
         </div>
         <div className="category-add d-flex flex-column align-items-center mt-3">
           <div className="mb-3 w-75" style={{ border: "1px solid grey" }}>
-            <input className="form-control"  type="file" id="categoryImage" />
+            <input className="form-control" type="file" id="categoryImage" />
           </div>
           <div className="input-group w-75">
             <input
@@ -109,7 +126,11 @@ function Account() {
               id="categoryName"
             />
             <button className="btn btn-success" onClick={addCategory}>
-              Add
+              {loading ? (
+                <CircularProgress style={{ color: "white" }} />
+              ) : (
+                "Add"
+              )}
             </button>
           </div>
         </div>

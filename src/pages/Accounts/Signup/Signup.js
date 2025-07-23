@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField, CircularProgress } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,6 +9,7 @@ import {
 } from "../../../Config/firebase/firebase";
 import "./../style.css";
 function Signup() {
+  const [loading, setLoading] = React.useState(false);
   const signupFirebase = async () => {
     try {
       const fullName = document.getElementById("fullName").value;
@@ -23,8 +24,25 @@ function Signup() {
         });
         return;
       }
+      if (contact.length !== 11) {
+        swal({
+          icon: "error",
+          title: "Oops...", 
+          text: "Contact number must be 11 digits",
+        });
+        return;
+      }
+      if (email.length === 0 || password.length === 0) {
+        swal({
+          icon: "error",
+          title: "Oops...",
+          text: "email and password required",
+        });
+        return;
+      }
+      setLoading(true);
       await createUserWithEmailAndPassword(auth, email, password);
-      const userData={fullName,email,contact}
+      const userData = { fullName, email, contact }
       await addUserToDB(userData);
       swal({
         title: "Congrats! Sigup Successfully.",
@@ -39,6 +57,9 @@ function Signup() {
         title: "Oops...",
         text: e.message,
       });
+    }
+    finally {
+      setLoading(false);
     }
   };
   const navigate = useNavigate();
@@ -59,6 +80,7 @@ function Signup() {
       </div>
       <div className="signupInpsDiv">
         <TextField
+          type="number"
           className="signupInp"
           label="Contact"
           id="contact"
@@ -86,7 +108,13 @@ function Signup() {
       </div>
 
       <button onClick={signupFirebase} className="signupBtn">
-        Sign Up
+        {
+          loading ? (
+            <CircularProgress style={{ color: "white" }} />
+          ) : (
+            "Sign Up"
+          )
+        }
       </button>
       <div>
         <p className="text-center mt-4 blue-text fw-bold c-pointer ">

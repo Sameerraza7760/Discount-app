@@ -90,7 +90,7 @@ function UserSetting() {
 
   return (
     <>
-      <div className="container" style={{ width: "90%" }}>
+      <div className="container" style={{ width: "90%" ,paddingBottom: "10%" }}>
         <div className="admin-head d-flex flex-column align-items-center">
           <p className="text-center mt-2 fs-5 text-primary">Settings</p>
           <img width="100" alt="" />

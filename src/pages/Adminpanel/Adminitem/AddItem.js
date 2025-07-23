@@ -5,8 +5,9 @@ import { swal, doc, setDoc, collection, getDocs, db, storage, ref, uploadBytes, 
 import adminItems from '../../../Redux/adminaction/adminaction';
 import Navbar from '../../../Components/Navbar/Navbar';
 import Footer from '../../../Components/Footer/Adminfooter/Footer';
-
+import { CircularProgress } from '@mui/material';
 const Index = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
 
@@ -16,11 +17,27 @@ const Index = () => {
       const productDesc = document.getElementById('productDesc').value;
       const unitName = document.getElementById('unitName').value;
       const unitPrice = document.getElementById('unitPrice').value;
-      const adminImage = await uploadImage(document.getElementById('product-img').files[0]);
+      const imageFile = document.getElementById('product-img').files[0];
       const productCategory = document.getElementById('productCategory').value;
 
+      if (!productName || !productDesc || !unitName || !unitPrice || !imageFile || !productCategory) {
+        swal('Please Fill All Inputs');
+        return;
+      }
+      if (isNaN(unitPrice) || unitPrice <= 0) {
+        swal('Unit Price must be a positive number');
+        return;
+      }
+      setLoading(true);
+
+      const adminImage = await uploadImage(imageFile);
+      if (!adminImage) {
+        swal('Image upload failed');
+        setLoading(false);
+        return;
+      }
       const itemsAdmin = { productName, productDesc, unitName, unitPrice, adminImage, productCategory };
-      
+
 
       // if (Object.values(itemsAdmin).map((value) => value.length === 0)) {
       //   swal('Please Fill All Inputs');
@@ -35,6 +52,14 @@ const Index = () => {
       dispatch(adminItems(adminarray));
     } catch (e) {
       swal({ icon: 'error', title: 'Oops...', text: e.message });
+    }
+    finally {
+      setLoading(false);
+      // document.getElementById('productName').value = '';
+      // document.getElementById('productDesc').value = '';
+      // document.getElementById('unitName').value = '';
+      // document.getElementById('unitPrice').value = '';
+      // document.getElementById('product-img').value = '';
     }
   };
 
@@ -57,7 +82,7 @@ const Index = () => {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div className="container h-auto mt-5" style={{ paddingBottom: '10%', height: 'auto' }}>
         <p className="fs-6 mt-5 ms-2" style={{ color: '#024F9D' }}>Add New Items</p>
         <div className="container">
           <div className="signup-form w-75 mx-auto mt-2">
@@ -88,7 +113,9 @@ const Index = () => {
               </div>
             </div>
             <div className="signup-btn text-center mb-2">
-              <button className="btn btn-primary theme-btn mt-1 fw-bold px-4 shadow" onClick={createItems}>Add Product</button>
+              <button className="btn btn-primary theme-btn mt-1 fw-bold px-4 shadow" onClick={createItems}>
+                {loading ? <CircularProgress style={{ color: 'white' }} /> : 'Add Item'}
+              </button>
             </div>
           </div>
         </div>

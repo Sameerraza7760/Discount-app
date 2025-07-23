@@ -5,8 +5,9 @@ import { toast } from 'react-toastify';
 import UserFooter from '../../../Components/Footer/Userfooter/UserFooter';
 import { auth, db, doc, setDoc, swal } from '../../../Config/firebase/firebase';
 import { clearCart, resetCartReducer } from '../../../Redux/cartaction/cartaction';
-
+import { CircularProgress } from '@mui/material';
 function UserCart() {
+  const [loading, setLoading] = useState(false);
   const [item, setItem] = useState();
   const cartItem = useSelector((state) => state.cartItemReducer.cartItemsArray);
   const dispatch = useDispatch();
@@ -33,6 +34,11 @@ function UserCart() {
       const email = document.getElementById('email').value;
       const shippingAddress = document.getElementById('shippingAdress').value;
       const cartItem = item;
+      if (cartItem.length === 0) {
+        swal('Your cart is empty!');
+        return; 
+      
+      }
       const time = Date.now();
       const status = 'pending';
       const orderPrice = total;
@@ -57,6 +63,11 @@ function UserCart() {
         swal('Phone number is less than 11 characters.');
         return;
       }
+      if (contact.length > 11) {
+        swal('Phone number is more than 11 characters.');
+        return;
+      }
+      setLoading(true);
 
       await setDoc(doc(db, 'orderItem', `${auth.currentUser.uid}${Date.now()}`), orderItem);
       dispatch(clearCart());
@@ -79,6 +90,9 @@ function UserCart() {
         text: error.message,
       });
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -97,7 +111,7 @@ function UserCart() {
           </div>
         </div>
 
-        <div className="cart-product" style={{ height: '50%' }}>
+        <div className="cart-product" style={{ height: 'auto' }}>
           {cartItem.map((cart, index) => (
             <div className="hp-card d-flex border-0 justify-content-between align-items-center mb-4" key={index}>
               <div className="p-img">
@@ -133,7 +147,11 @@ function UserCart() {
             </div>
             <div className="signup-btn text-center mb-5" style={{ margin: 'auto', width: '100%' }}>
               <button className="loginBtn mt-1 fw-bold px-4" onClick={placeOrder}>
-                Place Order
+                {loading ? (
+                  <CircularProgress style={{ color: "white" }} />
+                ) : (
+                  'Place Order'
+                )}
               </button>
             </div>
           </div>

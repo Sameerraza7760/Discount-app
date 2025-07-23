@@ -15,61 +15,61 @@ import {
 import './../style.css';
 
 function Home() {
-    const navigate=useNavigate()
-    const dispatch=useDispatch()
- 
-    const [categories, setCategories] = useState([]);
-    const [allProducts, setAllProducts] = useState([]);
-  
-    useEffect(() => {
-      const getProducts = async () => {
-        const querySnapshot = await getDocs(collection(db, 'adminItems'));
-        const myProducts = [];
-        querySnapshot.forEach((doc) => {
-          myProducts.push({ id: doc.id, ...doc.data() });
-        });
-        setAllProducts(myProducts);
-      };
-      getProducts();
-  
-      const getCategories = async () => {
-        const querySnapshot = await getDocs(collection(db, 'categories'));
-        const myCategories = [];
-        querySnapshot.forEach((doc) => {
-          myCategories.push({ id: doc.id, ...doc.data() });
-        });
-        setCategories(myCategories);
-      };
-      getCategories();
-    }, []);
-  
-    const filterByCategory = async () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const [categories, setCategories] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
       const querySnapshot = await getDocs(collection(db, 'adminItems'));
       const myProducts = [];
       querySnapshot.forEach((doc) => {
         myProducts.push({ id: doc.id, ...doc.data() });
       });
-      if (document.getElementById('productCategory').value === 'all') {
-        setAllProducts(myProducts);
-        return;
-      }
-  
-      const categoryToFilter = document.getElementById('productCategory').value;
-      const filteredCategories = myProducts.filter((item) => item.productCategory === categoryToFilter);
-      setAllProducts(filteredCategories);
+      setAllProducts(myProducts);
     };
-  
-    const CartItems = (item) => {
-      dispatch(cartItem(item));
-      toast.success(`${item.productName} added to cart!`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
+    getProducts();
+
+    const getCategories = async () => {
+      const querySnapshot = await getDocs(collection(db, 'categories'));
+      const myCategories = [];
+      querySnapshot.forEach((doc) => {
+        myCategories.push({ id: doc.id, ...doc.data() });
       });
+      setCategories(myCategories);
     };
-  
-    return (
-      <>
-       <div className='h-auto'  style={{paddingBottom:'10%',height:'auto'}} >
-       <h1 className="green-text mt-5" style={{ color: '#61b846' }}>
+    getCategories();
+  }, []);
+
+  const filterByCategory = async () => {
+    const querySnapshot = await getDocs(collection(db, 'adminItems'));
+    const myProducts = [];
+    querySnapshot.forEach((doc) => {
+      myProducts.push({ id: doc.id, ...doc.data() });
+    });
+    if (document.getElementById('productCategory').value === 'all') {
+      setAllProducts(myProducts);
+      return;
+    }
+
+    const categoryToFilter = document.getElementById('productCategory').value;
+    const filteredCategories = myProducts.filter((item) => item.productCategory === categoryToFilter);
+    setAllProducts(filteredCategories);
+  };
+
+  const CartItems = (item) => {
+    dispatch(cartItem(item));
+    toast.success(`${item.productName} added to cart!`, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  };
+
+  return (
+    <>
+      <div className='h-auto' style={{ paddingBottom: '10%', height: 'auto' }} >
+        <h1 className="green-text mt-5" style={{ color: '#61b846' }}>
           SAYLANI WELFARE
         </h1>
         <p className="blue-text fw-bold mt-3" style={{ fontSize: '20px' }}>
@@ -84,7 +84,7 @@ function Home() {
             id="productCategory"
             onChange={() => filterByCategory()}
             className="form-control mb-2 border-1"
-         
+
           >
             <option className="filterOpt" value={'all'}>
               {'All'}
@@ -104,7 +104,7 @@ function Home() {
         </div>
         <div
           className="products d-flex flex-column h-auto"
-          style={{ marginBottom: '5em', margin: 'auto', width: '80%',height:'400px' }}
+          style={{ marginBottom: '5em', margin: 'auto', width: '80%', height: 'auto' }}
         >
           {allProducts.length ? allProducts.map((item, index) => {
             return (
@@ -142,14 +142,16 @@ function Home() {
                 </div>
               </div>
             );
-          }): <h3>No Products</h3>}
+          }) : <h3 className="text-xl font-semibold text-gray-600 text-center mt-4">
+            No Products Available
+          </h3>}
         </div>
-       </div>
-       <div className='mt-5' >
-       <UserFooter />
-       </div>
-      </>
-    );
-  }
-  
-  export default Home;
+      </div>
+      <div className='mt-5' >
+        <UserFooter />
+      </div>
+    </>
+  );
+}
+
+export default Home;
